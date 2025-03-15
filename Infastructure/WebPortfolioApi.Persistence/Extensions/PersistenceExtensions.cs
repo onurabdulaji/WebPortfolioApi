@@ -2,9 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebPortfolioApi.Application.Interfaces.Repositories;
+using WebPortfolioApi.Application.Interfaces.UnitOfWorks;
 using WebPortfolioApi.Domain.Entities;
 using WebPortfolioApi.Persistence.Context;
+using WebPortfolioApi.Persistence.Repositories;
 using WebPortfolioApi.Persistence.Seed;
+using WebPortfolioApi.Persistence.UnitOfWorks;
 
 namespace WebPortfolioApi.Persistence.Extensions;
 
@@ -17,7 +21,13 @@ public static class PersistenceExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
-        // IdentityCore yapılandırması
+
+        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+        services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
         services.AddIdentityCore<User>(options =>
         {
             options.Password.RequireDigit = true;

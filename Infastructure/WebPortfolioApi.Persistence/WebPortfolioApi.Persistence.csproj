@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\WebPortfolio.Domain\WebPortfolioApi.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\WebPortfolioApi.Application\WebPortfolioApi.Application.csproj" />
   </ItemGroup>
 
 </Project>
