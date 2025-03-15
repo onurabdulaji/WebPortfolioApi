@@ -7,7 +7,7 @@ using WebPortfolioApi.Domain.Commons.Concretes;
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Stat : EntityBase
+public class Stat : EntityBase
 {
     public int? Client { get; set; }
     public int? Project { get; set; }

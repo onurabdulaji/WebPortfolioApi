@@ -1,7 +1,7 @@
 ﻿using WebPortfolioApi.Domain.Commons.Concretes;
 
 namespace WebPortfolioApi.Domain.Entities;
-class Resume : EntityBase
+public class Resume : EntityBase
 {
     public string? Title { get; set; }
     public string? City { get; set; }

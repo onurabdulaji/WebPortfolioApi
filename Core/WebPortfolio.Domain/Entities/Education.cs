@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Education : EntityBase
+public class Education : EntityBase
 {
     public string? Name { get; set; }
     public int? FromYear { get; set; }

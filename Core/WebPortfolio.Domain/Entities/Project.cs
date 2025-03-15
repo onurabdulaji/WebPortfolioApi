@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Project : EntityBase
+public class Project : EntityBase
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

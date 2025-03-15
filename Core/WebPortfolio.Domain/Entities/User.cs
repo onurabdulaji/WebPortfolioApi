@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities
 {
-    class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>
     {
         public string? UserFullName { get; set; }
         public string? RefreshToken { get; set; }

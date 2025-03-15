@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Form : EntityBase
+public class Form : EntityBase
 {
     public string? FormName { get; set; }
     public string? FormEmail { get; set; }

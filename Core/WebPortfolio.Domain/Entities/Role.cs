@@ -2,6 +2,6 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Role : IdentityRole<Guid>
+public class Role : IdentityRole<Guid>
 {
 }

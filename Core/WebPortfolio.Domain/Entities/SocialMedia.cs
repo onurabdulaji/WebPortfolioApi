@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class SocialMedia : EntityBase
+public class SocialMedia : EntityBase
 {
     public string? Title { get; set; }
     public string? Icon { get; set; }
