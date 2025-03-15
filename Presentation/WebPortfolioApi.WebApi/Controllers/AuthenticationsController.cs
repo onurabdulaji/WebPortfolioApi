@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebPortfolioApi.Application.Features.MediatR.Authentication;
 
 namespace WebPortfolioApi.WebApi.Controllers;
 
@@ -13,17 +14,22 @@ public class AuthenticationsController : ControllerBase
     {
         _mediator = mediator;
     }
+    [HttpPost("login")]
+    public async Task<IActionResult> LogIn([FromBody] LogIn.Command command)
+    {
+        if (command == null || string.IsNullOrEmpty(command.Email) || string.IsNullOrEmpty(command.Password))
+        {
+            return BadRequest("Invalid login request.");
+        }
+        try
+        {
+            var userId = await _mediator.Send(command);
+            return Ok(new { UserId = userId }); 
+        }
+        catch (Exception ex)
+        {
+            return Unauthorized(new { Message = ex.Message });
+        }
+    }
 
-    //[HttpPost("login")]
-    //public async Task<ActionResult<LoginResponseDto>> Login([FromBody] LoginCommandRequest request)
-    //{
-    //    if (request == null)
-    //    {
-    //        return BadRequest("Invalid login request.");
-    //    }
-
-    //    var response = await _mediator.Send(request);
-
-    //    return Ok(response);
-    //}
 }

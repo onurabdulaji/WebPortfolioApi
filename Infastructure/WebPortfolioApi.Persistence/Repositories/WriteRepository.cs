@@ -5,7 +5,7 @@ using WebPortfolioApi.Persistence.Context;
 
 namespace WebPortfolioApi.Persistence.Repositories;
 
-public class WriteRepository<T> : IWriteRepository<T> where T : class, IEntityBase, new()
+public class WriteRepository<T> : IWriteRepository<T> where T : class,  new()
 {
     private readonly AppDbContext _context;
 

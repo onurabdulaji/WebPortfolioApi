@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Application.Interfaces.IRepositories;
 
-public interface IWriteRepository<T> where T : class,IEntityBase,new()
+public interface IWriteRepository<T> where T : class,new()
 {
     Task AddAsync(T entity);
     Task AddRangeAsync(IList<T> entities);

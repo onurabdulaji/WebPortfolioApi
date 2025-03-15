@@ -1,6 +1,8 @@
-﻿namespace WebPortfolioApi.Domain.Commons.Concretes;
+﻿using WebPortfolioApi.Domain.Commons.Abstracts;
 
-public class EntityBase
+namespace WebPortfolioApi.Domain.Commons.Concretes;
+
+public class EntityBase : IEntityBase
 {
     public Guid Id { get; set; } = Guid.NewGuid();
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

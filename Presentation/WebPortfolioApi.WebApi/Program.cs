@@ -1,3 +1,4 @@
+using Carter;
 using Microsoft.OpenApi.Models;
 using WebPortfolioApi.Application.Extensions;
 using WebPortfolioApi.Infastructure.Extensions;
@@ -6,6 +7,7 @@ using WebPortfolioApi.Persistence.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCarter();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplicationLayer(builder.Configuration);
@@ -60,5 +62,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapCarter();
 app.Run();

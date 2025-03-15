@@ -7,7 +7,7 @@ using WebPortfolioApi.Persistence.Context;
 
 namespace WebPortfolioApi.Persistence.Repositories;
 
-public class ReadRepository<T> : IReadRepository<T> where T : class, IEntityBase, new()
+public class ReadRepository<T> : IReadRepository<T> where T : class, new()
 {
     private readonly AppDbContext _context;
 
