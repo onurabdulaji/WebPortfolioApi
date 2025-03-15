@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Contact : EntityBase
+public class Contact : EntityBase
 {
     public string? Address { get; set; }
     public string? Phone { get; set; }

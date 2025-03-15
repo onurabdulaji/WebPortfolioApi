@@ -2,7 +2,7 @@
 
 namespace WebPortfolioApi.Domain.Entities;
 
-class Skill : EntityBase
+public class Skill : EntityBase
 {
     public string? Title { get; set; }
     public int? Value { get; set; }
