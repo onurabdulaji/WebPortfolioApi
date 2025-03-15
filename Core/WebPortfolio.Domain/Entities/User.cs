@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using WebPortfolioApi.Domain.Commons.Abstracts;
+using WebPortfolioApi.Domain.Commons.Concretes;
 
 namespace WebPortfolioApi.Domain.Entities
 {

@@ -1,38 +1,16 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using WebPortfolioApi.Application.Interfaces.Tokens;
-using WebPortfolioApi.Infastructure.Tokens;
+using WebPortfolioApi.Application.Interfaces.IServices.Tokens;
+using WebPortfolioApi.Infrastructure.Services.Tokens;
 
-namespace WebPortfolioApi.Infastructure.Extensions;
-
-public static class InfastructureExtension
+namespace WebPortfolioApi.Infastructure.Extensions
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static class InfastructureExtension
     {
-        services.Configure<TokenSettings>(configuration.GetSection("JWT"));
-        services.AddTransient<ITokenService, TokenService>();
+        public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<ITokenService, TokenService>();
 
-        services.AddAuthentication(opt =>
-        {
-            opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
-        {
-            opt.SaveToken = true;
-            opt.TokenValidationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
-                ValidateLifetime = false,
-                ValidIssuer = configuration["JWT:Issuer"],
-                ValidAudience = configuration["JWT:Audience"],
-                ClockSkew = TimeSpan.Zero
-            };
-        });
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using WebPortfolioApi.Application.Interfaces.Repositories;
+﻿using WebPortfolioApi.Application.Interfaces.IRepositories;
 using WebPortfolioApi.Application.Interfaces.UnitOfWorks;
 using WebPortfolioApi.Persistence.Context;
 using WebPortfolioApi.Persistence.Repositories;

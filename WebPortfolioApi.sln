@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -18,10 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPortfolioApi.Infastructure", "Infastructure\WebPortfolioApi.Infastructure\WebPortfolioApi.Infastructure.csproj", "{2B3D09B0-D14B-4A5E-8EBC-6A698BE409B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPortfolioApi.WebApi", "Presentation\WebPortfolioApi.WebApi\WebPortfolioApi.WebApi.csproj", "{39629DB8-454A-4EA9-991C-162E217402D5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{20FD91B1-7A8B-4A23-AF59-108135EEB5E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebPortfolioApi.DTO", "DTO\WebPortfolioApi.DTO\WebPortfolioApi.DTO.csproj", "{89E7E277-8F80-47F7-B732-C7A1DC58BF7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +45,6 @@ Global
 		{39629DB8-454A-4EA9-991C-162E217402D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39629DB8-454A-4EA9-991C-162E217402D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39629DB8-454A-4EA9-991C-162E217402D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89E7E277-8F80-47F7-B732-C7A1DC58BF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89E7E277-8F80-47F7-B732-C7A1DC58BF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89E7E277-8F80-47F7-B732-C7A1DC58BF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89E7E277-8F80-47F7-B732-C7A1DC58BF7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,7 +55,6 @@ Global
 		{F5A646E8-F2B6-44C3-8E90-155FF5626110} = {D65321F1-6EF2-42CC-8475-48BD0E0BF85C}
 		{2B3D09B0-D14B-4A5E-8EBC-6A698BE409B1} = {D65321F1-6EF2-42CC-8475-48BD0E0BF85C}
 		{39629DB8-454A-4EA9-991C-162E217402D5} = {A0A52645-C2BE-4E83-97ED-E3630D59E0EC}
-		{89E7E277-8F80-47F7-B732-C7A1DC58BF7F} = {20FD91B1-7A8B-4A23-AF59-108135EEB5E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F60EB1E-E4C1-46D9-ACBD-3D11AD961568}

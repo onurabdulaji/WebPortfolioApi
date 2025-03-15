@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using WebPortfolioApi.Domain.Commons.Abstracts;
 
-namespace WebPortfolioApi.Application.Interfaces.Repositories;
+namespace WebPortfolioApi.Application.Interfaces.IRepositories;
 
 public interface IReadRepository<T> where T : class,IEntityBase,new()
 {

@@ -1,79 +1,72 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using WebPortfolioApi.Application.Interfaces.Tokens;
+using WebPortfolioApi.Application.Interfaces.IServices.Tokens;
 using WebPortfolioApi.Domain.Entities;
 
-namespace WebPortfolioApi.Infastructure.Tokens;
-
-public class TokenService : ITokenService
+namespace WebPortfolioApi.Infrastructure.Services.Tokens
 {
-    private readonly UserManager<User> _userManager;
-    private readonly TokenSettings _tokenSettings;
-
-    public TokenService(UserManager<User> userManager, TokenSettings tokenSettings)
+    public class TokenService : ITokenService
     {
-        _userManager = userManager;
-        _tokenSettings = tokenSettings;
-    }
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<TokenService> _logger;
 
-    public async Task<JwtSecurityToken> CreateToken(User user, IList<string> roles)
-    {
-        var claims = new List<Claim>()
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email)
-            };
-
-        foreach (var role in roles)
+        public TokenService(IConfiguration configuration, ILogger<TokenService> logger)
         {
-            claims.Add(new Claim(ClaimTypes.Role, role));
+            _configuration = configuration;
+            _logger = logger;
         }
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Secret));
-
-        var token = new JwtSecurityToken(
-               issuer: _tokenSettings.Issuer,
-               audience: _tokenSettings.Audience,
-               expires: DateTime.Now.AddMinutes(_tokenSettings.TokenValidityInMunitues),
-               claims: claims,
-               signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-               );
-
-        await _userManager.AddClaimsAsync(user, claims);
-        return token;
-    }
-
-    public string GenerateRefreshToken()
-    {
-        var randomNumber = new byte[64];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
-    }
-
-    public ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
-    {
-        TokenValidationParameters tokenValidationParamaters = new()
+        public async Task<JwtSecurityToken> CreateToken(User user, IList<string> roles)
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Secret)),
-            ValidateLifetime = false
-        };
-        JwtSecurityTokenHandler tokenHandler = new();
-        var principal = tokenHandler.ValidateToken(token, tokenValidationParamaters, out SecurityToken securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken
-            || !jwtSecurityToken.Header.Alg
-            .Equals(SecurityAlgorithms.HmacSha256,
-            StringComparison.InvariantCultureIgnoreCase))
-            throw new SecurityTokenException("Token bulunamadı.");
+            try
+            {
+                if (user == null || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Email))
+                {
+                    _logger.LogError("Invalid user credentials.");
+                    return null;
+                }
 
-        return principal;
+                var jwtSettings = _configuration.GetSection("JWT");
+                var jwtKey = jwtSettings["SecretKey"];
+
+                if (string.IsNullOrEmpty(jwtKey))
+                {
+                    _logger.LogError("JWT configuration is invalid or missing.");
+                    return null;
+                }
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var claims = new List<Claim>
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+
+                claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+                var token = new JwtSecurityToken(
+                    issuer: jwtSettings["Issuer"],
+                    audience: jwtSettings["Audience"],
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings["ExpirationMinutes"])),
+                    signingCredentials: credentials
+                );
+
+                return token;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Token generation failed.");
+                return null;
+            }
+        }
     }
 }

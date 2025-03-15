@@ -1,4 +1,4 @@
-﻿using WebPortfolioApi.Application.Interfaces.Repositories;
+﻿using WebPortfolioApi.Application.Interfaces.IRepositories;
 using WebPortfolioApi.Domain.Commons.Abstracts;
 
 namespace WebPortfolioApi.Application.Interfaces.UnitOfWorks;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
-using WebPortfolioApi.Application.Interfaces.Repositories;
+using WebPortfolioApi.Application.Interfaces.IRepositories;
 using WebPortfolioApi.Domain.Commons.Abstracts;
 using WebPortfolioApi.Persistence.Context;
 

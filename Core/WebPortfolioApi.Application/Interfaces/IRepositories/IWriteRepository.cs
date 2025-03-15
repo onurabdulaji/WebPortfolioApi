@@ -1,6 +1,6 @@
 ﻿using WebPortfolioApi.Domain.Commons.Abstracts;
 
-namespace WebPortfolioApi.Application.Interfaces.Repositories;
+namespace WebPortfolioApi.Application.Interfaces.IRepositories;
 
 public interface IWriteRepository<T> where T : class,IEntityBase,new()
 {

@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebPortfolioApi.Application.Interfaces.Repositories;
+using WebPortfolioApi.Application.Interfaces.IRepositories;
 using WebPortfolioApi.Application.Interfaces.UnitOfWorks;
+using WebPortfolioApi.Application.ServiceManagers.Abstracts;
+using WebPortfolioApi.Application.ServiceManagers.Concretes;
 using WebPortfolioApi.Domain.Entities;
 using WebPortfolioApi.Persistence.Context;
 using WebPortfolioApi.Persistence.Repositories;
@@ -21,27 +23,24 @@ public static class PersistenceExtensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
 
-
         services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
         services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.AddScoped<IAuthenticationService, AuthenticationManager>();
 
-        services.AddIdentityCore<User>(options =>
+        services.AddIdentity<User, Role>(opt =>
         {
-            options.Password.RequireDigit = true;
-            options.Password.RequiredLength = 8;
-            options.Password.RequireLowercase = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            options.Lockout.MaxFailedAccessAttempts = 5;
-            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            options.User.RequireUniqueEmail = true;
+            opt.Password.RequireNonAlphanumeric = false;
+            opt.Password.RequiredLength = 2;
+            opt.Password.RequireLowercase = false;
+            opt.Password.RequireUppercase = false;
+            opt.Password.RequireDigit = false;
+            opt.SignIn.RequireConfirmedEmail = false;
         })
-        .AddRoles<Role>() 
-        .AddEntityFrameworkStores<AppDbContext>(); 
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
     }
     public static async Task UseIdentityDatabaseSeederAsync(this IServiceProvider service)
     {

@@ -1,11 +1,14 @@
 using Microsoft.OpenApi.Models;
-using WebPortfolioApi.DTO.Extensions;
+using WebPortfolioApi.Application.Extensions;
 using WebPortfolioApi.Infastructure.Extensions;
 using WebPortfolioApi.Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplicationLayer(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -13,8 +16,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen
+(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Portfolio", Version = "v1", Description = "Web Portfolio swagger client." });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -27,7 +30,7 @@ builder.Services.AddSwaggerGen(c =>
         Description = "'Bearer' yazýp boþluk býraktýktan sonra Token'ý Girebilirsiniz \r\n\r\n Örneðin: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
+{
         {
             new OpenApiSecurityScheme
             {
@@ -40,12 +43,8 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
 
-    });
 });
-
-builder.Services.AddPersistenceLayer(builder.Configuration);
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddDTOLayer();
+});
 
 var app = builder.Build();
 

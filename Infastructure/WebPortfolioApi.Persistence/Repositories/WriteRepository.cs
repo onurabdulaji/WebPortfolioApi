@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebPortfolioApi.Application.Interfaces.Repositories;
+using WebPortfolioApi.Application.Interfaces.IRepositories;
 using WebPortfolioApi.Domain.Commons.Abstracts;
 using WebPortfolioApi.Persistence.Context;
 
